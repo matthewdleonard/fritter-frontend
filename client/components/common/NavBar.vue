@@ -26,6 +26,12 @@
       >
         Login
       </router-link>
+      <router-link
+        v-if="$store.state.username"
+        to="/messages"
+      >
+      Messages
+      </router-link>
     </div>
     <section class="alerts">
       <article

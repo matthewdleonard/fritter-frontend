@@ -11,6 +11,7 @@ const store = new Vuex.Store({
   state: {
     filter: null, // Username to filter shown freets by (null = show all)
     freets: [], // All freets created in the app
+    messages: [], // All messages created in the app
     username: null, // Username of the logged in user
     alerts: {} // global success/error messages encountered during submissions to non-visible forms
   },
@@ -45,6 +46,13 @@ const store = new Vuex.Store({
        */
       state.freets = freets;
     },
+    updateMessages(state, messages) {
+      /**
+       * Update the stored messages to the provided messages.
+       * @param messages - messages to store
+       */
+      state.messages = messages;
+    },
     async refreshFreets(state) {
       /**
        * Request the server for the currently available freets.
@@ -52,6 +60,14 @@ const store = new Vuex.Store({
       const url = state.filter ? `/api/users/${state.filter}/freets` : '/api/freets';
       const res = await fetch(url).then(async r => r.json());
       state.freets = res;
+    },
+    async refreshMessages(state) {
+      /**
+       * Request the server for the currently available freets.
+       */
+      const url = state.filter ? `/api/users/${state.filter}/messages` : '/api/messages';
+      const res = await fetch(url).then(async r => r.json());
+      state.messages = res;
     }
   },
   // Store data across page refreshes, only discard on browser close
