@@ -4,6 +4,9 @@ import FreetsPage from './components/Freet/FreetsPage.vue';
 import AccountPage from './components/Account/AccountPage.vue';
 import LoginPage from './components/Login/LoginPage.vue';
 import MessagesPage from './components/Messages/MessagesPage.vue';
+import StorePage from './components/Store/StorePage.vue';
+import StoreCreationPage from './components/Store/StoreCreationPage.vue';
+import LockPage from './components/Lock/LockPage.vue';
 import NotFound from './NotFound.vue';
 
 Vue.use(VueRouter);
@@ -13,6 +16,9 @@ const routes = [
   {path: '/account', name: 'Account', component: AccountPage},
   {path: '/login', name: 'Login', component: LoginPage},
   {path: '/messages', name: 'Messages', component: MessagesPage},
+  {path: '/store', name: 'Store', component: StorePage},
+  {path: '/lock', name: 'Lock', component: LockPage},
+  {path: '/createstoreitem', name: 'Store Creation', component: StoreCreationPage},
   {path: '*', name: 'Not Found', component: NotFound}
 ];
 

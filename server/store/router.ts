@@ -118,7 +118,8 @@ router.put(
   [
     userValidator.isUserLoggedIn,
     storeItemValidator.isStoreItemExists,
-    storeItemValidator.isValidStoreItemModifier
+    storeItemValidator.isValidStoreItemModifier,
+    storeItemValidator.isValidStoreItemContent
   ],
   async (req: Request, res: Response) => {
     const storeItem = await StoreItemCollection.updateOne(req.params.storeItemId, req.body.content, req.body.type);

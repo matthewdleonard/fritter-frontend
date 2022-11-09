@@ -10,6 +10,8 @@ import * as userValidator from '../server/user/middleware';
 import {userRouter} from '../server/user/router';
 import {freetRouter} from '../server/freet/router';
 import {messageRouter} from '../server/message/router';
+import {storeRouter} from '../server/store/router';
+import {lockRouter} from '../server/lock/router';
 import MongoStore from 'connect-mongo';
 
 // Load environmental variables
@@ -72,6 +74,8 @@ app.use(userValidator.isCurrentSessionUserExists);
 app.use('/api/users', userRouter);
 app.use('/api/freets', freetRouter);
 app.use('/api/messages', messageRouter);
+app.use('/api/store', storeRouter);
+app.use('/api/lock', lockRouter);
 
 // Catch all the other routes and display error message
 app.all('*', (req: Request, res: Response) => {

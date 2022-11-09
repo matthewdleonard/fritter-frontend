@@ -20,6 +20,7 @@ export type Message = {
 export type PopulatedMessage = {
   _id: Types.ObjectId; // MongoDB assigns each object this ID on creation
   authorId: User;
+  recipientId: User;
   dateCreated: Date;
   content: string;
   dateModified: Date;

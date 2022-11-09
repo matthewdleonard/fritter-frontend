@@ -3,37 +3,46 @@
 
 <template>
   <article
-    class="storeItem"
+    class="message"
   >
     <header>
       <h3 class="author">
-        From: @{{ message.author }}
+        Created by @{{ storeItem.author }}
       </h3>
+
+      <div
+        v-if="$store.state.username === storeItem.author"
+        class="actions"
+      >
+        <button @click="editItem">
+          ✏️ Edit
+        </button>
+        <button @click="deleteItem">
+          🗑️ Delete
+        </button>
+      </div>
       <h3 class="recipient">
-        To: @{{ message.recipient }}
+        {{ storeItem.type }}
       </h3>
     </header>
-      {{ message.content }}
-    </p>
-    <p class="info">
-      Posted at {{ message.dateModified }}
+      <img ref = "storeItemImage"/>
     </p>
   </article>
 </template>
 
 <script>
 export default {
-  name: 'MessageComponent',
+  name: 'StoreItemComponent',
   props: {
     // Data from the stored message
-    message: {
+    storeItem: {
       type: Object,
       required: true
     }
   },
   data() {
     return {
-      draft: this.message.content, // Potentially-new content for this freet
+      draft: this.storeItem.content, // Potentially-new content for this freet
       alerts: {} // Displays success/error messages encountered during freet modification
     };
   },
@@ -53,7 +62,7 @@ export default {
       }
 
       try {
-        const r = await fetch(`/api/messages/${this.message._id}`, options);
+        const r = await fetch(`/api/store/${this.storeItem._id}`, options);
         if (!r.ok) {
           const res = await r.json();
           throw new Error(res.error);
@@ -67,7 +76,28 @@ export default {
         this.$set(this.alerts, e, 'error');
         setTimeout(() => this.$delete(this.alerts, e), 3000);
       }
-    }
+    },
+    editItem() {
+      this.$store.commit('updateEditedStoreItem', this.storeItem._id);
+      this.$router.push("/createstoreitem");
+    },
+    deleteItem() {
+      /**
+       * Deletes this item.
+       */
+      const params = {
+        method: 'DELETE',
+        callback: () => {
+          this.$store.commit('alert', {
+            message: 'Successfully deleted store item!', status: 'success'
+          });
+        }
+      };
+      this.request(params);
+    },
+  },
+  mounted() {
+    this.$refs.storeItemImage.src = this.storeItem.content;
   }
 };
 </script>

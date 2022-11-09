@@ -6,6 +6,7 @@ import type {Message, PopulatedMessage} from '../message/model';
 type MessageResponse = {
   _id: string;
   author: string;
+  recipient: string;
   dateCreated: string;
   content: string;
   dateModified: string;
@@ -32,12 +33,15 @@ const constructMessageResponse = (message: HydratedDocument<Message>): MessageRe
       versionKey: false // Cosmetics; prevents returning of __v property
     })
   };
-  const {username} = messageCopy.authorId;
+  const authorName = messageCopy.authorId.username;
+  const recipientName = messageCopy.recipientId.username;
   delete messageCopy.authorId;
+  delete messageCopy.recipientId;
   return {
     ...messageCopy,
     _id: messageCopy._id.toString(),
-    author: username,
+    author: authorName,
+    recipient: recipientName,
     dateCreated: formatDate(message.dateCreated),
     dateModified: formatDate(message.dateModified)
   };

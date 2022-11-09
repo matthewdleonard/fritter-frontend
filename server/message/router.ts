@@ -5,6 +5,7 @@ import * as userValidator from '../user/middleware';
 import * as messageValidator from '../message/middleware';
 import * as util from './util';
 import MessageCollection from './collection';
+import UserCollection from '../user/collection';
 
 const router = express.Router();
 
@@ -60,6 +61,7 @@ router.post(
   ],
   async (req: Request, res: Response) => {
     const userId = (req.session.userId as string) ?? ''; // Will not be an empty string since its validated in isUserLoggedIn
+    console.log(req.body.recipient);
     const message = await MessageCollection.addOne(userId, req.body.recipient, req.body.content);
 
     res.status(201).json({

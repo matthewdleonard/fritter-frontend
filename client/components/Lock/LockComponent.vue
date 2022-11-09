@@ -3,41 +3,66 @@
 
 <template>
   <article
-    class="storeItem"
+    class="lock"
   >
     <header>
-      <h3 class="author">
-        From: @{{ message.author }}
-      </h3>
-      <h3 class="recipient">
-        To: @{{ message.recipient }}
-      </h3>
+        <button @click="editItem">
+          ✏️ Edit
+        </button>
+        <button @click="deleteItem">
+          🗑️ Delete
+        </button>
+      <p class="type">
+        Type: {{ lock.type }}
+      </p>
+      <p class="type">
+        Time left before app locks: {{ lock.browseTimeLeft }} seconds
+      </p>
+      <p class="type">
+        Activity practice time required before the app unlocks: {{ lock.activityTimeLeft }} seconds
+      </p>
     </header>
-      {{ message.content }}
     </p>
     <p class="info">
-      Posted at {{ message.dateModified }}
+      Created at {{ lock.dateModified }}
     </p>
   </article>
 </template>
 
 <script>
 export default {
-  name: 'MessageComponent',
+  name: 'LockComponent',
   props: {
     // Data from the stored message
-    message: {
+    lock: {
       type: Object,
       required: true
     }
   },
   data() {
     return {
-      draft: this.message.content, // Potentially-new content for this freet
       alerts: {} // Displays success/error messages encountered during freet modification
     };
   },
   methods: {
+    deleteItem() {
+      /**
+       * Deletes this item.
+       */
+      const params = {
+        method: 'DELETE',
+        callback: () => {
+          this.$store.commit('alert', {
+            message: 'Successfully deleted store item!', status: 'success'
+          });
+        }
+      };
+      this.request(params);
+    },
+    editItem() {
+      this.$store.commit('updateEditedLock', this.lock._id);
+      this.$router.push("/decreaselock");
+    },
     async request(params) {
       /**
        * Submits a request to the message's endpoint
@@ -53,14 +78,13 @@ export default {
       }
 
       try {
-        const r = await fetch(`/api/messages/${this.message._id}`, options);
+        const r = await fetch(`/api/lock/${this.lock._id}`, options);
         if (!r.ok) {
           const res = await r.json();
           throw new Error(res.error);
         }
 
-        this.editing = false;
-        this.$store.commit('refreshMessages');
+        this.$store.commit('refreshLocks');
 
         params.callback();
       } catch (e) {

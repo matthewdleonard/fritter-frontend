@@ -36,7 +36,10 @@ class MessageCollection {
       dateModified: date
     });
     await message.save(); // Saves freet to MongoDB
-    return message.populate('authorId');
+    console.log("Trying populate!");
+
+    return (await message.populate('recipientId')).populate('recipientId');
+    
   }
 
   /**
@@ -46,7 +49,7 @@ class MessageCollection {
    * @return {Promise<HydratedDocument<Message>> | Promise<null> } - The message with the given messageId, if any
    */
   static async findOne(messageId: Types.ObjectId | string): Promise<HydratedDocument<Message>> {
-    return MessageModel.findOne({_id: messageId}).populate('authorId');
+    return MessageModel.findOne({_id: messageId}).populate('authorId').populate('recipientId');
   }
 
   /**
@@ -56,7 +59,7 @@ class MessageCollection {
    */
   static async findAll(username: string): Promise<Array<HydratedDocument<Message>>> {
     // Retrieves freets and sorts them from most to least recent
-    return MessageModel.find({recipientId: username}).sort({dateModified: -1}).populate('authorId');
+    return MessageModel.find({recipientId: username}).sort({dateModified: -1}).populate('authorId').populate('recipientId');
   }
 
   /**
@@ -67,7 +70,7 @@ class MessageCollection {
    */
   static async findAllByUsername(username: string): Promise<Array<HydratedDocument<Message>>> {
     const author = await UserCollection.findOneByUsername(username);
-    return MessageModel.find({authorId: author._id}).populate('authorId');
+    return MessageModel.find({authorId: author._id}).populate('authorId').populate('recipientId');
   }
 }
 

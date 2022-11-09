@@ -32,6 +32,18 @@
       >
       Messages
       </router-link>
+      <router-link
+        v-if="$store.state.username"
+        to="/store"
+      >
+      Store
+      </router-link>
+      <router-link
+        v-if="$store.state.username"
+        to="/lock"
+      >
+      Lock
+      </router-link>
     </div>
     <section class="alerts">
       <article
@@ -44,6 +56,32 @@
     </section>
   </nav>
 </template>
+
+
+<script>
+
+export default {
+  name: 'NavBar',
+  components: {},
+  methods: {
+    timerCallback() {
+      setTimeout(() => this.timerCallback(), 15000);
+
+      if (this.$store.state.username) {
+        for (let i in this.$store.state.locks) {
+          let lock = this.$store.state.locks[i];
+          
+          this.$store.commit('lockPassTime', [i, 15]);
+        }
+      }
+    },
+  },
+  mounted() {
+    this.$store.commit('refreshLocks');
+    setTimeout(() => this.timerCallback(), 15000);
+  }
+};
+</script>
 
 <style scoped>
 nav {

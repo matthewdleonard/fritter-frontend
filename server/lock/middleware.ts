@@ -28,21 +28,27 @@ const isLockExists = async (req: Request, res: Response, next: NextFunction) => 
   const {browseTimeLeft} = req.body as {browseTimeLeft: string};
   const {activityTimeLeft} = req.body as {activityTimeLeft: string};
 
-  console.log(Number(browseTimeLeft), Number(activityTimeLeft));
+  const {type} = req.body as {type: string};
+    if (!type.trim()) {
+      res.status(400).json({
+        error: 'Lock type must be at least one character long.'
+      });
+      return;
+    }
 
-  if (Number(browseTimeLeft) == NaN) {
-    res.status(400).json({
-      error: 'Lock time must be a number.'
-    });
-    return;
-  }
+    if (Number(browseTimeLeft) == NaN) {
+      res.status(400).json({
+        error: 'Lock time must be a number.'
+      });
+      return;
+    }
 
-  if (Number(activityTimeLeft) == NaN) {
-    res.status(400).json({
-      error: 'Lock time must be a number.'
-    });
-    return;
-  }
+    if (Number(activityTimeLeft) == NaN) {
+      res.status(400).json({
+        error: 'Lock time must be a number.'
+      });
+      return;
+    }
 
 
   next();
