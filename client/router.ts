@@ -38,6 +38,13 @@ router.beforeEach((to, from, next) => {
       next({name: 'Login'}); // Go to Login page if user navigates to Account and are not signed in
       return;
     }
+    //If this is a place where the user should be locked out of on 
+    if (to.name === 'Home' ||to.name === 'Store' || to.name === 'Store Creation' ||to.name === 'Messages' ) {
+      router.app.$store.commit('checkIfLocked');
+      if (router.app.$store.state.locked) {
+        next({name: 'Lock'});
+      }
+    }
   }
 
   next();

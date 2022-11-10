@@ -3,7 +3,7 @@
 
 <template>
   <article
-    class="message"
+    class="storeItem"
   >
     <header>
       <h3 class="author">
@@ -25,7 +25,7 @@
         {{ storeItem.type }}
       </h3>
     </header>
-      <img ref = "storeItemImage"/>
+      <img ref = "storeItemImage" width = 256 height = 256/>
     </p>
   </article>
 </template>
@@ -103,9 +103,11 @@ export default {
 </script>
 
 <style scoped>
-.freet {
+.storeItem {
     border: 1px solid #111;
     padding: 20px;
     position: relative;
+    margin: 4px;
+    display: flex;
 }
 </style>

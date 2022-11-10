@@ -117,13 +117,14 @@ export default {
 
 <style scoped>
 form {
-  border: 1px solid #111;
+  border: 1px solid #ccc;
   padding: 0.5rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   margin-bottom: 14px;
   position: relative;
+  
 }
 
 article > div {

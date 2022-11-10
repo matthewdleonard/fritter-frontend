@@ -27,7 +27,6 @@
       <section
         v-if="$store.state.storeItems.length"
       >
-
         <StoreItemComponent
           v-for="storeItem in $store.state.storeItems"
           :key="storeItem.id"

@@ -31,6 +31,7 @@ export default {
 <style>
 * {
   box-sizing: border-box;
+  border-radius: 10px;
 }
 
 body {

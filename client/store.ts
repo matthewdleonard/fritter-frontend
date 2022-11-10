@@ -14,6 +14,7 @@ const store = new Vuex.Store({
     messages: [], // All messages created in the app
     storeItems: [], // All messages created in the app,
     locks: [],
+    locked: false,
     editedStoreItem: null,//The store item the user is currently editing (null = not editing an item)
     editedLock: null,
     username: null, // Username of the logged in user
@@ -160,6 +161,17 @@ const store = new Vuex.Store({
       const res = await fetch(url).then(async r => r.json());
       state.locks = res;
     },
+    checkIfLocked(state) {
+      console.log("Checking if locked!");
+      state.locked = false;
+      for (let i in state.locks) {
+        let parse = parseInt(state.locks[i].browseTimeLeft);
+        console.log(parse);
+        if (parse == 0) {
+          state.locked = true;
+        }
+      }
+    }
   },
   // Store data across page refreshes, only discard on browser close
   plugins: [createPersistedState()]

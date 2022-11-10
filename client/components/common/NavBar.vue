@@ -14,31 +14,31 @@
       <router-link to="/">
         Home
       </router-link>
-      <router-link
+      <router-link class = "navbar.link"
         v-if="$store.state.username"
         to="/account"
       >
         Account
       </router-link>
-      <router-link
+      <router-link class = "navbar.link"
         v-else
         to="/login"
       >
         Login
       </router-link>
-      <router-link
+      <router-link class = "navbar.link"
         v-if="$store.state.username"
         to="/messages"
       >
       Messages
       </router-link>
-      <router-link
+      <router-link class = "navbar.link"
         v-if="$store.state.username"
         to="/store"
       >
       Store
       </router-link>
-      <router-link
+      <router-link class = "navbar.link"
         v-if="$store.state.username"
         to="/lock"
       >
@@ -72,6 +72,8 @@ export default {
           let lock = this.$store.state.locks[i];
           
           this.$store.commit('lockPassTime', [i, 15]);
+          this.$store.commit('checkIfLocked');
+
         }
       }
     },
@@ -86,7 +88,7 @@ export default {
 <style scoped>
 nav {
     padding: 1vw 2vw;
-    background-color: #ccc;
+    background-color: #ECF87F;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -117,6 +119,8 @@ img {
 
 .right a {
     margin-left: 5px;
+    text-decoration: none;
+    color: black;
 }
 
 .alerts {

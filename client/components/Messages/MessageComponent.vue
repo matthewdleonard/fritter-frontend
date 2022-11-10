@@ -3,7 +3,7 @@
 
 <template>
   <article
-    class="storeItem"
+    class="message"
   >
     <header>
       <h3 class="author">
@@ -73,9 +73,11 @@ export default {
 </script>
 
 <style scoped>
-.freet {
-    border: 1px solid #111;
+.message {
+    border: 1px solid #ccc;
     padding: 20px;
     position: relative;
+    margin: 4px;
 }
 </style>
+
